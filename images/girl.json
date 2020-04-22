@@ -1,0 +1,63 @@
+{"frames": {
+
+"girl_1.png":
+{
+	"frame": {"x":0,"y":0,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+},
+"girl_2.png":
+{
+	"frame": {"x":0,"y":140,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+},
+"girl_3.png":
+{
+	"frame": {"x":0,"y":280,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+},
+"girl_4.png":
+{
+	"frame": {"x":0,"y":420,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+},
+"girl_5.png":
+{
+	"frame": {"x":0,"y":560,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+},
+"girl_6.png":
+{
+	"frame": {"x":0,"y":700,"w":124,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":140},
+	"sourceSize": {"w":124,"h":140}
+}},
+"animations": {
+	"girl": ["girl_1.png","girl_2.png","girl_3.png","girl_4.png","girl_5.png","girl_6.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "girl.png",
+	"format": "RGBA8888",
+	"size": {"w":124,"h":840},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a75348de555ded688a16a61180eb2ced:1b08daf979763cb16e9b2a0167128104:fc184cec3362dcb9d829b92434285a35$"
+}
+}

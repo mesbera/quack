@@ -1,0 +1,92 @@
+{"frames": {
+
+"exitNormal.png":
+{
+	"frame": {"x":148,"y":54,"w":148,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":58},
+	"sourceSize": {"w":148,"h":58}
+},
+"exitPressed.png":
+{
+	"frame": {"x":0,"y":0,"w":148,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":54},
+	"sourceSize": {"w":148,"h":54}
+},
+"game1Normal.png":
+{
+	"frame": {"x":296,"y":54,"w":148,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":58},
+	"sourceSize": {"w":148,"h":58}
+},
+"game1Pressed.png":
+{
+	"frame": {"x":148,"y":0,"w":148,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":54},
+	"sourceSize": {"w":148,"h":54}
+},
+"game2Normal.png":
+{
+	"frame": {"x":0,"y":112,"w":148,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":58},
+	"sourceSize": {"w":148,"h":58}
+},
+"game2Pressed.png":
+{
+	"frame": {"x":296,"y":0,"w":148,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":54},
+	"sourceSize": {"w":148,"h":54}
+},
+"game3Normal.png":
+{
+	"frame": {"x":148,"y":112,"w":148,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":58},
+	"sourceSize": {"w":148,"h":58}
+},
+"game3Pressed.png":
+{
+	"frame": {"x":0,"y":54,"w":148,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":148,"h":54},
+	"sourceSize": {"w":148,"h":54}
+},
+"logo.png":
+{
+	"frame": {"x":0,"y":170,"w":374,"h":206},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":374,"h":206},
+	"sourceSize": {"w":374,"h":206}
+},
+"menuBase.png":
+{
+	"frame": {"x":0,"y":376,"w":356,"h":413},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":356,"h":413},
+	"sourceSize": {"w":356,"h":413}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "mainButtons.png",
+	"format": "RGBA8888",
+	"size": {"w":444,"h":789},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6614d4547b0727e5a9bbc001a5b6c192:ee2a0ad3fa3d4645d68f0dee7ac318d7:8975f74ac3b80eab9c847f700740ad92$"
+}
+}

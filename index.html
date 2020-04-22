@@ -1,0 +1,573 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+</head>
+
+<body>
+    <script src="pixi/pixi.min.js"></script>
+    <script src="pixi/pixi-particles.js"></script>
+    <script>
+        //Aliases
+        let loader = PIXI.Loader.shared,
+            resources = PIXI.Loader.shared.resources,
+            Sprite = PIXI.Sprite;
+
+        //Create a Pixi Application
+        let app = new PIXI.Application({
+            width: 800,
+            height: 600,
+            resolution: 1
+        });
+
+        //Add the canvas to the HTML document
+        document.body.appendChild(app.view);
+
+        loader
+            .add("images/mainAnimation.json")
+            .add("images/mainButtons.json")
+            .add("images/sky.png")
+            .add("images/clouds.png")
+            .add("images/treesFront.png")
+            .add("images/treesBack.png")
+            .add("images/grass.png")
+            .add("images/foreground.png")
+            .add("images/girl.json")
+            .add("images/duck1.json")
+            .add("images/duck2.json")
+            .add("images/duck3.json")
+            .add("images/duck4.json")
+            .add("images/bullet.png")
+            .add("images/gameOver.png")
+            .load(setup);
+
+        let state, keys = {};
+
+        function setup() {
+
+            //Set the game state
+            state = splashScreenState;
+
+            //Game state containers
+            splashContainer = new PIXI.Container();
+            splashContainer.visible = false;
+            app.stage.addChild(splashContainer);
+
+            mainContainer = new PIXI.Container();
+            mainContainer.visible = false;
+            app.stage.addChild(mainContainer);
+
+            gameContainer = new PIXI.Container();
+            gameContainer.visible = false;
+            app.stage.addChild(gameContainer);
+
+            splashScreen = new SplashScreen();
+            mainScreen = new MainScreen();
+            gameScreen = new GameScreen();
+            //           exitScreen = new exitScreen();
+
+            //Creating the scenes            
+            splashScreen.create();
+            mainScreen.create();
+            gameScreen.create();
+
+            //Start the game loop
+            app.ticker.add(delta => gameLoop(delta));
+
+        }
+
+        function gameLoop(delta) {
+            //Update the current game state
+            state(delta);
+        }
+
+        function splashScreenState() {
+            splashContainer.visible = true;
+            mainContainer.visible = false;
+            gameContainer.visible = false;
+            splashScreen.loop();
+        }
+
+        function mainScreenState() {
+            splashContainer.visible = false;
+            mainContainer.visible = true;
+            gameContainer.visible = false;
+        }
+
+        function gameScreenState() {
+            splashContainer.visible = false;
+            mainContainer.visible = false;
+            gameContainer.visible = true;
+
+            gameScreen.loop();
+        }
+
+        class SplashScreen {
+            //this.image;
+            //this.startTime;
+            create() {
+                this.image = PIXI.Sprite.from("images/splashScreen.png");
+                splashContainer.addChild(this.image);
+                this.startTime = Date.now();
+            };
+            loop() {
+                let now = Date.now();
+                if (now - this.startTime >= 2000) {
+                    if (this.image.alpha > 0.1)
+                        this.image.alpha -= 0.015;
+                    else {
+                        state = mainScreenState;
+                    }
+                }
+            };
+        }
+        class MainScreen {
+            create() {
+                const frames = [];
+                for (let i = 0; i < 36; i++) {
+                    frames.push(PIXI.Texture.from('frame_' + (i + 1) + '.png'));
+                }
+
+                const anim = new PIXI.AnimatedSprite(frames);
+                anim.animationSpeed = 0.13;
+                anim.y = 150;
+                anim.play();
+
+                app.renderer.backgroundColor = 0x75c3f1
+                mainContainer.addChild(anim);
+
+                const id = PIXI.Loader.shared.resources["images/mainButtons.json"].textures;
+
+                const logo = new Sprite(id["logo.png"]);
+                logo.anchor.set(0.5, 0.5);
+                logo.x = mainContainer.width / 2;
+                logo.y = 105;
+                mainContainer.addChild(logo);
+
+                const menu = new Sprite(id["menuBase.png"]);
+                menu.anchor.set(0.5, 0.5);
+                menu.x = 400;
+                menu.y = 400;
+                mainContainer.addChild(menu);
+
+                const game1Button = new Sprite(id["game1Normal.png"]);
+                game1Button.anchor.set(0.5, 0.5);
+                game1Button.x = 400;
+                game1Button.y = 325;
+                game1Button.interactive = true;
+                game1Button.buttonMode = true;
+                game1Button
+                    .on('pointerdown', function() {
+                        this.texture = id["game1Pressed.png"];
+                    })
+                    .on('pointerup', function() {
+                        this.texture = id["game1Normal.png"];
+                        state = gameScreenState;
+                    })
+                    .on('pointerout', function() {
+                        this.texture = id["game1Normal.png"];
+                    });
+                mainContainer.addChild(game1Button);
+
+                const game2Button = new Sprite(id["game2Normal.png"]);
+                game2Button.anchor.set(0.5, 0.5);
+                game2Button.x = 400;
+                game2Button.y = 390;
+                game2Button.interactive = true;
+                game2Button.buttonMode = true;
+                game2Button
+                    .on('pointerdown', function() {
+                        this.texture = id["game2Pressed.png"];
+                    })
+                    .on('pointerup', function() {
+                        this.texture = id["game2Normal.png"];
+                        state = gameScreenState;
+                    })
+                    .on('pointerout', function() {
+                        this.texture = id["game2Normal.png"];
+                    });
+                mainContainer.addChild(game2Button);
+
+                const game3Button = new Sprite(id["game3Normal.png"]);
+                game3Button.anchor.set(0.5, 0.5);
+                game3Button.x = 400;
+                game3Button.y = 455;
+                game3Button.interactive = true;
+                game3Button.buttonMode = true;
+                game3Button
+                    .on('pointerdown', function() {
+                        this.texture = id["game3Pressed.png"];
+                    })
+                    .on('pointerup', function() {
+                        this.texture = id["game3Normal.png"];
+                        state = gameScreenState;
+                    })
+                    .on('pointerout', function() {
+                        this.texture = id["game3Normal.png"];
+                    });
+                mainContainer.addChild(game3Button);
+
+                const exitButton = new Sprite(id["exitNormal.png"]);
+                exitButton.anchor.set(0.5, 0.5);
+                exitButton.x = 400;
+                exitButton.y = 520;
+                exitButton.interactive = true;
+                exitButton.buttonMode = true;
+                exitButton
+                    .on('pointerdown', function() {
+                        this.texture = id["exitPressed.png"];
+                    })
+                    .on('pointerup', function() {
+                        this.texture = id["exitNormal.png"];
+                        window.location.replace("https://github.com/mesbera/quack")
+                    })
+                    .on('pointerout', function() {
+                        this.texture = id["exitNormal.png"];
+                    });
+                mainContainer.addChild(exitButton);
+            };
+        }
+        class GameScreen {
+            constructor() {
+                this.lastBulletTime = Date.now();
+                this.lastDuckTime = Date.now();
+                this.bullets = [];
+                this.duckPool = new DuckPool();
+            };
+            create() {
+                app.stage.addChild(gameContainer);
+                this.isGameOver = false;
+
+                const sky = PIXI.Sprite.from("images/sky.png");
+                gameContainer.addChild(sky);
+
+                const cloudsTexture = PIXI.Texture.from("images/clouds.png");
+                const clouds = new PIXI.TilingSprite(cloudsTexture, gameContainer.width, 102);
+                clouds.y = 5;
+                gameContainer.addChild(clouds);
+
+                const treesbackTexture = PIXI.Texture.from("images/treesBack.png");
+                const treesback = new PIXI.TilingSprite(treesbackTexture, gameContainer.width, 65);
+                treesback.y = 90;
+                gameContainer.addChild(treesback);
+
+                const treesfrontTexture = PIXI.Texture.from("images/treesFront.png");
+                const treesfront = new PIXI.TilingSprite(treesfrontTexture, gameContainer.width, 75);
+                treesfront.y = 80;
+                gameContainer.addChild(treesfront);
+
+
+                const grassTexture = PIXI.Texture.from("images/grass.png");
+                const grass = new PIXI.TilingSprite(grassTexture, gameContainer.width, 475);
+                grass.y = 130;
+                gameContainer.addChild(grass);
+
+                const foreground = PIXI.Sprite.from("images/foreground.png");
+                foreground.y = 155;
+                gameContainer.addChild(foreground);
+
+                const girl = [];
+                for (let i = 0; i < 6; i++) {
+                    girl.push(PIXI.Texture.from('girl_' + (i + 1) + '.png'));
+                }
+                this.girlAnimation = new PIXI.AnimatedSprite(girl);
+                this.girlAnimation.animationSpeed = 0.13;
+                this.girlAnimation.y = 365;
+                this.girlAnimation.x = 70;
+                this.girlAnimation.anchor.set(0.5, 0.5);
+                this.girlAnimation.play();
+                gameContainer.addChild(this.girlAnimation);
+
+                this.bullets = [];
+                for (let i = 0; i < 20; i++) {
+                    this.bullets.push(PIXI.Sprite.from("images/bullet.png"));
+                    this.bullets[i].anchor.set(0.5, 0.5);
+                    this.bullets[i].x = this.girlAnimation.x;
+                    this.bullets[i].y = this.girlAnimation.y - 10;
+                    this.bullets[i].vx = 10;
+                    this.bullets[i].rotation = 0;
+                    this.bullets[i].visible = false;
+                    gameContainer.addChild(this.bullets[i]);
+                }
+
+                window.addEventListener("keydown", keysDown);
+                window.addEventListener("keyup", keysUp);
+
+                app.ticker.add(() => {
+                    clouds.tilePosition.x += 0.25;
+
+                    treesback.tilePosition.x += 0.8;
+                    treesfront.tilePosition.x += 1;
+                    grass.tilePosition.x -= 0.5;
+                })
+            };
+            loop() {
+                if (this.isGameOver) {
+                    let gameOverImg = PIXI.Sprite.from("images/gameOver.png");
+                    gameContainer.addChild(gameOverImg);
+                    let now = Date.now();
+                    if ((now - this.gameOverCounter) >= 1000) {
+                        this.gameOver()
+                    }
+                } else {
+                    this.girlController();
+                    this.bulletsController();
+                    this.ducksController();
+                }
+
+            };
+
+            girlController() {
+                //Up
+                if (keys["38"] && this.girlAnimation.position.y > 180) {
+                    this.girlAnimation.y -= 5;
+                }
+                //Down
+                if (keys["40"] && this.girlAnimation.position.y < 510) {
+                    this.girlAnimation.y += 5;
+                }
+                //Left
+                if (keys["37"] && this.girlAnimation.position.x > 72) {
+                    this.girlAnimation.x -= 5;
+                }
+                //Right
+                if (keys["39"] && this.girlAnimation.position.x < 738) {
+                    this.girlAnimation.x += 5;
+                }
+            };
+
+            bulletsController() {
+                let now = Date.now();
+                if (now - this.lastBulletTime >= 120) {
+                    for (let i = 0; i < this.bullets.length; i++) {
+                        if (this.bullets[i].visible === false) {
+                            this.bullets[i].x = this.girlAnimation.x;
+                            this.bullets[i].y = this.girlAnimation.y - 10;
+                            this.bullets[i].visible = true;
+                            gameContainer.addChild(this.bullets[i]);
+                            break;
+                        }
+                    }
+                    this.lastBulletTime = now;
+                }
+
+                for (let i = 0; i < this.bullets.length; i++) {
+                    const bullet = this.bullets[i];
+                    if (bullet.visible === true) {
+                        bullet.x += bullet.vx;
+                        bullet.rotation += 0.3;
+                        if (bullet.x >= 780 || this.hitADuck(bullet)) {
+                            bullet.x = 0;
+                            bullet.y = 0;
+                            bullet.visible = false;
+                            gameContainer.removeChild(bullet);
+
+                        }
+                    }
+                }
+            };
+
+            ducksController() {
+                let now = Date.now();
+                let duck;
+
+                if (now - this.lastDuckTime >= 2000) {
+                    let newDuck = this.duckPool.newDuck();
+                    gameContainer.addChild(newDuck);
+                    this.lastDuckTime = now;
+
+                }
+
+                for (let i = 0; i < this.duckPool.ducks.length; i++) {
+                    this.duckPool.ducks[i].x -= this.duckPool.ducks[i].vx;
+                    if (this.duckPool.ducks[i].x <= 20) {
+                        gameContainer.removeChild(this.duckPool.ducks[i]);
+                        this.duckPool.ducks.splice(i, 1);
+                        i--;
+                    }
+                    this.hitAGirl(i);
+                }
+            };
+
+            hitADuck(bullet) {
+                for (let i = 0; i < this.duckPool.ducks.length; i++) {
+                    if (testForAABB(this.duckPool.ducks[i], bullet, )) {
+                        updateEmitter(this.duckPool.ducks[i].x, this.duckPool.ducks[i].y);
+
+                        gameContainer.removeChild(this.duckPool.ducks[i]);
+                        this.duckPool.ducks.splice(i, 1);
+                        i--;
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            hitAGirl(i) {
+                if (testForAABB(this.girlAnimation, this.duckPool.ducks[i])) {
+
+                    this.gameOverCounter = Date.now();
+                    this.isGameOver = true;
+
+                }
+
+            }
+            gameOver() {
+                gameContainer.removeChildren(0, gameContainer.children.length);
+                this.duckPool.ducks = [];
+                this.bullets = [];
+                this.create();
+                state = mainScreenState;
+            }
+        }
+
+        class DuckPool {
+            constructor() {
+                this.ducks = [];
+                this.seed = 1;
+                this.counter = 1;
+            }
+
+            reset(duckAnimation) {
+                duckAnimation.animationSpeed = 0.13;
+                duckAnimation.anchor.set(0.5, 0.5);
+                duckAnimation.y = randomInt(160, gameContainer.height - 60 - duckAnimation.height / 2, this.seed);
+                duckAnimation.x = 800 + duckAnimation.width / 2;
+                duckAnimation.vx = 5;
+                duckAnimation.play();
+                this.seed++;
+            };
+
+            newDuck() {
+                let duckAnim;
+                if (this.counter === 1) {
+                    let duck = [];
+                    for (let i = 1; i <= 6; i++) {
+                        duck.push(PIXI.Texture.from('duck1_' + i + '.png'));
+                    }
+                    duckAnim = new PIXI.AnimatedSprite(duck);
+                    this.reset(duckAnim);
+                    this.ducks.push(duckAnim);
+                } else if (this.counter >= 2 && this.counter <= 4) {
+                    let ducklot = [];
+                    for (let j = 1; j <= 2; j++) {
+                        ducklot.push(PIXI.Texture.from('duck' + this.counter + '_' + j + '.png'));
+                    }
+                    duckAnim = new PIXI.AnimatedSprite(ducklot);
+                    this.reset(duckAnim);
+                    this.ducks.push(duckAnim);
+                }
+
+                this.counter++;
+
+                if (this.counter >= 5) {
+                    this.counter = 1;
+                }
+                return duckAnim;
+            };
+        }
+
+        function updateEmitter(x, y) {
+
+
+            createEmitter();
+            emitter.updateOwnerPos(x, y);
+
+            emitter.playOnceAndDestroy();
+        }
+
+        function createEmitter() {
+            container = new PIXI.ParticleContainer();
+            gameContainer.addChild(container);
+            emitter = new PIXI.particles.Emitter(
+
+                // The PIXI.Container to put the emitter in
+                // if using blend modes, it's important to put this
+                // on top of a bitmap, and not use the root stage Container
+                container,
+
+                // The collection of particle images to use
+                [PIXI.Texture.from("images/explosionParticle.png")],
+
+                // Emitter configuration, edit this to change the look
+                // of the emitter
+                {
+                    "alpha": {
+                        "start": 1,
+                        "end": 0.72
+                    },
+                    "scale": {
+                        "start": 0.5,
+                        "end": 0.01,
+                        "minimumScaleMultiplier": 1
+                    },
+                    "color": {
+                        "start": "#ffd51c",
+                        "end": "#2cde18"
+                    },
+                    "speed": {
+                        "start": 100,
+                        "end": 0,
+                        "minimumSpeedMultiplier": 1
+                    },
+                    "acceleration": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "maxSpeed": 0,
+                    "startRotation": {
+                        "min": 0,
+                        "max": 360
+                    },
+                    "noRotation": false,
+                    "rotationSpeed": {
+                        "min": 0,
+                        "max": 0
+                    },
+                    "lifetime": {
+                        "min": 0.2,
+                        "max": 1.7
+                    },
+                    "blendMode": "normal",
+                    "frequency": 0.001,
+                    "emitterLifetime": 0.05,
+                    "maxParticles": 50,
+                    "pos": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "addAtBack": false,
+                    "spawnType": "burst",
+                    "particlesPerWave": 2,
+                    "particleSpacing": 0,
+                    "angleStart": 0
+                }
+            );
+        }
+
+        function testForAABB(object1, object2) {
+            if (typeof object1 === 'undefined' || typeof object2 === 'undefined') {
+                return false;
+            }
+
+            return object1.x < object2.x + object2.width &&
+                object1.x + object1.width / 2 > object2.x &&
+                object1.y < object2.y + object2.height &&
+                object1.height / 2 + object1.y > object2.y;
+        }
+
+        function randomInt(min, max, seed) {
+            let x = Math.sin(seed) * 10000;
+            return Math.floor((x - Math.floor(x)) * (max - min + 1)) + min;
+        }
+
+        function keysDown(e) {
+            keys[e.keyCode] = true;
+        }
+
+        function keysUp(e) {
+            keys[e.keyCode] = false;
+        }
+    </script>
+</body></html>
