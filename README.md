@@ -1,2 +1,2 @@
 # quack
-PixiJS based duck shooter :)
+PixiJS based duck-shooter :)
